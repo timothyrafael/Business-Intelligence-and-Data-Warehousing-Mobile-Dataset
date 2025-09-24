@@ -1,0 +1,118 @@
+show databases;
+use projectbi;
+show tables;
+
+
+Select * from detailproduct;
+select* from product;
+select * from company;
+
+
+
+ALTER TABLE IndiaPrice
+MODIFY COLUMN IndiaID VARCHAR(50),
+MODIFY COLUMN IDProduct VARCHAR(50),
+ADD PRIMARY KEY (IndiaID),
+ADD FOREIGN KEY (IDProduct) REFERENCES Product(IDProduct);
+
+drop table IndiaPrice;
+
+ALTER TABLE PakistanPrice
+MODIFY COLUMN PakistanID VARCHAR(50),
+MODIFY COLUMN IDProduct VARCHAR(50),
+ADD PRIMARY KEY (PakistanID),
+ADD FOREIGN KEY (IDProduct) REFERENCES Product(IDProduct);
+
+drop table PakistanPrice;
+
+ALTER TABLE USDPrice
+MODIFY COLUMN USAID VARCHAR(50),
+MODIFY COLUMN IDProduct VARCHAR(50),
+ADD PRIMARY KEY (USAID),
+ADD FOREIGN KEY (IDProduct) REFERENCES Product(IDProduct);
+
+drop table USDPrice;
+
+ALTER TABLE dubaiPrice
+MODIFY COLUMN DubaiID VARCHAR(50),
+MODIFY COLUMN IDProduct VARCHAR(50),
+ADD PRIMARY KEY (DubaiID),
+ADD FOREIGN KEY (IDProduct) REFERENCES Product(IDProduct);
+
+drop table DubaiPrice;
+
+
+ALTER TABLE chinaPrice
+MODIFY COLUMN ChinaID VARCHAR(50),
+MODIFY COLUMN IDProduct VARCHAR(50),
+ADD PRIMARY KEY (ChinaID),
+ADD FOREIGN KEY (IDProduct) REFERENCES Product(IDProduct);
+
+drop table chinaPrice;
+
+
+SELECT IDProduct
+FROM chinaprice
+WHERE IDProduct NOT IN (
+  SELECT IDProduct FROM product
+);
+
+ALTER TABLE IndiaPrice
+ADD PRIMARY KEY (IndiaID),
+ADD FOREIGN KEY (IDProduct) REFERENCES detailProduct(IDProduct);
+
+
+ALTER TABLE Product
+MODIFY COLUMN CompanyID VARCHAR(20),
+MODIFY COLUMN IDProduct VARCHAR(50),
+MODIFY COLUMN ModelName VARCHAR(255),
+MODIFY COLUMN `Mobile Weight` VARCHAR(20),
+MODIFY COLUMN RAM VARCHAR(20),
+MODIFY COLUMN `Front Camera` VARCHAR(50),
+MODIFY COLUMN `Back Camera` VARCHAR(100),
+MODIFY COLUMN Processor VARCHAR(100),
+MODIFY COLUMN `Battery Capacity` VARCHAR(20),
+MODIFY COLUMN `Screen Size` VARCHAR(50),
+MODIFY COLUMN `Launched Year` INT;
+
+
+ALTER TABLE DetailProduct
+MODIFY COLUMN IDProduct VARCHAR(50),
+MODIFY COLUMN PakistanID VARCHAR(50),
+MODIFY COLUMN IndiaID VARCHAR(50),
+MODIFY COLUMN ChinaID VARCHAR(50),
+MODIFY COLUMN USAID VARCHAR(50),
+MODIFY COLUMN DubaiID VARCHAR(50);
+
+
+ALTER TABLE Company
+MODIFY COLUMN CompanyID VARCHAR(20),
+MODIFY COLUMN CompanyName VARCHAR(100);
+
+
+ALTER TABLE Company
+ADD PRIMARY KEY (CompanyID);
+
+
+ALTER TABLE Product
+ADD PRIMARY KEY (IDProduct),
+ADD FOREIGN KEY (CompanyID) REFERENCES Company(CompanyID);
+
+
+
+
+
+drop table product;
+
+drop table company;
+
+
+ALTER TABLE DetailProduct
+ADD PRIMARY KEY (IDProduct),
+ADD FOREIGN KEY (IDProduct) REFERENCES Product(IDProduct),
+ADD FOREIGN KEY (PakistanID) REFERENCES PakistanPrice(PakistanID),
+ADD FOREIGN KEY (IndiaID) REFERENCES IndiaPrice(IndiaID),
+ADD FOREIGN KEY (ChinaID) REFERENCES ChinaPrice(ChinaID),
+ADD FOREIGN KEY (USAID) REFERENCES USDPrice(USAID),
+ADD FOREIGN KEY (DubaiID) REFERENCES DubaiPrice(DubaiID);
+
